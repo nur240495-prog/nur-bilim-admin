@@ -104,3 +104,11 @@ loadImages();
 
 </body>
 </html>
+const fs = require("fs");
+
+app.use(express.json());
+
+app.post("/save", (req, res) => {
+  fs.writeFileSync("public/site.html", req.body.code);
+  res.send("saved");
+});
