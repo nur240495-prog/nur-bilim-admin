@@ -26,7 +26,14 @@ app.post("/upload", upload.single("image"), (req, res) => {
     url: "/uploads/" + req.file.filename
   });
 });
+const fs = require("fs");
 
+app.use(express.json());
+
+app.post("/save", (req, res) => {
+  fs.writeFileSync("public/site.html", req.body.code);
+  res.send("saved");
+});
 app.get("/images", (req, res) => {
   const files = fs.readdirSync("uploads");
   res.json(files.map(f => ({ url: "/uploads/" + f })));
