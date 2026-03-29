@@ -1,32 +1,67 @@
 <!DOCTYPE html>
-<html lang="kk">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>NUR BILIM Admin</title>
-  <style>
-    body {
-      font-family: Arial;
-      background: #f5f7fa;
-      margin: 0;
-    }
+  <title>Admin Panel</title>
+</head>
+<body>
 
-    header {
-      background: #00c853;
-      color: white;
-      padding: 15px;
-      font-size: 20px;
-      font-weight: bold;
-    }
+<h2>🧑‍💻 Код редактор</h2>
 
-    .container {
-      padding: 20px;
-    }
+<textarea id="code" style="width:100%;height:200px;">
+<h1>Сәлем!</h1>
+</textarea>
 
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
+<br><br>
+
+<button onclick="publish()">🚀 Жариялау</button>
+
+<p id="link"></p>
+
+<hr>
+
+<h2>🖼 Сурет жүктеу</h2>
+
+<input type="file" id="img">
+<button onclick="upload()">Жүктеу</button>
+
+<p id="imgLink"></p>
+
+<script>
+function publish() {
+  fetch("/save", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      code: document.getElementById("code").value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("link").innerHTML =
+      "Сайт: <a href='" + data.url + "' target='_blank'>" + data.url + "</a>";
+  });
+}
+
+function upload() {
+  let file = document.getElementById("img").files[0];
+
+  let formData = new FormData();
+  formData.append("image", file);
+
+  fetch("/upload", {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("imgLink").innerHTML =
+      "Сурет: <a href='" + data.url + "' target='_blank'>" + data.url + "</a>";
+  });
+}
+</script>
+
+</body>
+</html>
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
