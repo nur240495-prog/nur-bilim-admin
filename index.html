@@ -1,13 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <title>NUR BILIM Admin</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f5f7fa;
+      margin: 0;
+    }
+
+    header {
+      background: #00c853;
+      color: white;
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    button {
+      background: #00c853;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    img {
+      width: 150px;
+      margin: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
 <body>
 
-<h2>NUR BILIM</h2>
+<header>🌿 NUR BILIM ADMIN</header>
 
-<input type="file" id="file">
-<button onclick="upload()">Жүктеу</button>
+<div class="container">
 
-<div id="gallery"></div>
+  <div class="card">
+    <h3>Жаңа сурет жүктеу</h3>
+    <input type="file" id="file">
+    <button onclick="upload()">Жүктеу</button>
+  </div>
+
+  <div class="card">
+    <h3>Галерея</h3>
+    <div id="gallery"></div>
+  </div>
+
+</div>
 
 <script>
 async function upload() {
@@ -25,18 +81,23 @@ async function upload() {
 
 async function loadImages() {
   const res = await fetch("/images");
-  const data = await res.json();
+  const images = await res.json();
 
   const gallery = document.getElementById("gallery");
   gallery.innerHTML = "";
 
-  data.forEach(img => {
+  images.forEach(img => {
     const el = document.createElement("img");
     el.src = img.url;
-    el.width = 120;
     gallery.appendChild(el);
   });
 }
+
+loadImages();
+</script>
+
+</body>
+</html>
 
 loadImages();
 </script>
